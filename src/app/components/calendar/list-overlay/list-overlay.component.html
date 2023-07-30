@@ -1,0 +1,7 @@
+<!-- <ng-container> -->
+  <div class="list">
+    <div *ngFor="let item of listData.list; let i = index" [id]="i" class="list__item" (click)="outputSelectedMonth(item, i)">
+      <span [class.bold]="i === this.listData.selectedIndex">{{ item }}</span>
+    </div>
+  </div>
+<!-- </ng-container> -->
