@@ -54,6 +54,7 @@
             clickedDate?.getMonth() === date?.getMonth() &&
             clickedDate?.getFullYear() === date?.getFullYear()
         }"
+        [tabIndex]="1"
         (click)="setDate(i)"
       >
         {{ day.day }}
