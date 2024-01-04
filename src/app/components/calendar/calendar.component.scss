@@ -6,6 +6,7 @@
   --border-color: #5A5A5A;
   --border-disabled: #9a9a9a;
   --outline-color: #9a9a9a;
+  --hover-background: #dcdde1;
   color: var(--picker-text-color);
   box-shadow: var(--box-shadow);
 
@@ -59,7 +60,7 @@
   transition: background 0.3s;
 
   &:hover {
-    background: #dcdde1;
+    background: var(--hover-background);
   }
 }
 
@@ -82,6 +83,7 @@
 .month .calendar-title {
   display: flex;
   gap: 0.5rem;
+  padding: 0.25rem;
   font-size: 1.5rem;
   font-weight: 300;
   color: var(--picker-text-color);
@@ -90,6 +92,14 @@
 
   span {
     display: flex;
+    gap: 0.25rem;
+    border-radius: 0.25rem;
+    padding: 0.1rem;
+    transition: background 0.3s;
+
+    &:hover {
+      background: var(--hover-background);
+    }
   }
 
   b {
@@ -272,7 +282,7 @@
   background: transparent;
   border: 2px solid var(--border-color);
   border-radius: 3px;
-  padding: 0.25rem;
+  padding: 0.25rem 0.5REM;
   transition: all 0.3s;
   cursor: pointer;
   margin-top: 0.5rem;

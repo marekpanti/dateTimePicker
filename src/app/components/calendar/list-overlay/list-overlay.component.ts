@@ -42,6 +42,3 @@ export class ListOverlayComponent implements AfterViewInit {
     this.selectMonth.emit({ value: value, index: index });
   }
 }
-
-// 3. Css variables
-// 5. make confirm method to select date

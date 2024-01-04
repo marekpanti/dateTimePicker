@@ -19,9 +19,9 @@
             [listData]="getYearRange()"
             [selected]="15"
             (selectYear)="setYear($event)"
-            >{{ date.getFullYear()
-            }}<img class="arrow-down" src="./assets/arrow-down.svg"
-          /></span>
+            >{{ date.getFullYear() }}
+            <img class="arrow-down" src="./assets/arrow-down.svg" />
+          </span>
         </span>
       </div>
       <span class="cal-icon" (click)="next()"
@@ -113,7 +113,13 @@
           </div>
         </div>
       </form>
-      <button class="confirm" [disabled]="!clickedDate || !timeForm.valid" (click)="confirm()">OK</button>
+      <button
+        class="confirm"
+        [disabled]="!clickedDate || !timeForm.valid"
+        (click)="confirm()"
+      >
+        OK
+      </button>
     </div>
   </div>
 </div>
