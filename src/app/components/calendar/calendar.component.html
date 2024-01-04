@@ -29,13 +29,13 @@
       /></span>
     </div>
     <div class="weekdays">
-      <div appList="test">Po</div>
-      <div>Ut</div>
-      <div>St</div>
-      <div>Št</div>
-      <div>Pia</div>
-      <div>So</div>
-      <div>Ne</div>
+      <div>{{ days[0] }}</div>
+      <div>{{ days[1] }}</div>
+      <div>{{ days[2] }}</div>
+      <div>{{ days[3] }}</div>
+      <div>{{ days[4] }}</div>
+      <div>{{ days[5] }}</div>
+      <div>{{ days[6] }}</div>
     </div>
     <div class="days">
       <div class="prev-date" *ngFor="let day of prevDays; let i = index">

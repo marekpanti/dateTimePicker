@@ -148,14 +148,13 @@
 
 .days div {
   font-size: 1rem;
-  // margin: 0.3rem;
   flex-direction: column;
   width: calc(100% / 7);
   height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 50%;
 
   &:focus {
     outline: 3px solid var(--outline-color);
@@ -174,6 +173,7 @@
 
 .today {
   font-weight: bold;
+  border: 1px solid var(--border-color);
 }
 
 .selected {

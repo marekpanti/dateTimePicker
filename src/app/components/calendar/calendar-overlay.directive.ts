@@ -38,7 +38,6 @@ export class DateTimePickerDirective implements OnDestroy {
 
   // We can add logic to some timeout on touch if needed
   @HostListener('click')
-  @HostListener('focus')
   show(): void {
     if (this.overlayRef?.hasAttached() === true) {
       return;
@@ -55,7 +54,7 @@ export class DateTimePickerDirective implements OnDestroy {
   }
 
   private attachPicker(): void {
-    if (this.overlayRef === null) {
+    if (!this.overlayRef) {
       const positionStrategy = this.getPositionStrategy();
       this.overlayRef = this.overlay.create({positionStrategy});
     }
@@ -65,8 +64,15 @@ export class DateTimePickerDirective implements OnDestroy {
       this.viewContainer,
       // injector
     );
+
     const componentRef: ComponentRef<DateTimePickerComponent> = this.overlayRef.attach(component);
     this.changeDetector.markForCheck();
+
+    this.subscriptions.push(
+      this.overlayRef.outsidePointerEvents().subscribe(() => {
+        this.detachAndUnsubscribe()
+      }),
+    )
 
     this.subscriptions.push(componentRef.instance.selectDate.subscribe((data) => {
       this.detachAndUnsubscribe();

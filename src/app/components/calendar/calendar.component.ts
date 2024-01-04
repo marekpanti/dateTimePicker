@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListOverlayDirective } from './list-overlay/list-overlay.directive';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -16,6 +16,16 @@ export const months = [
   'Oktober',
   'November',
   'December',
+];
+
+export const days = [
+  'Po',
+  'Ut',
+  'St',
+  'Št',
+  'Pia',
+  'So',
+  'Ne',
 ];
 
 interface TimeForm {
@@ -36,7 +46,6 @@ enum TimeEnum {
   styleUrls: ['./calendar.component.scss'],
 })
 export class DateTimePickerComponent {
-  months = months;
   date = new Date(new Date().setDate(1));
   currentDay = new Date();
   currentYear = this.date.getFullYear();
@@ -62,7 +71,7 @@ export class DateTimePickerComponent {
   currentDaysArray: any[] = [];
   lastDays: number[] = [];
   isSetHoursOpen = false;
-  clickedDate: Date;
+  clickedDate: Date = new Date();
   currentClickedIndex: number;
   timeTypes = TimeEnum;
   timeForm = new FormGroup<TimeForm>({
@@ -70,6 +79,8 @@ export class DateTimePickerComponent {
     minutes: new FormControl((new Date()).getMinutes(), [Validators.min(0), Validators.max(60)])
   });
 
+  @Input() months = months;
+  @Input() days = days;
   @Output() selectDate = new EventEmitter<Date>();
 
   ngOnInit() {

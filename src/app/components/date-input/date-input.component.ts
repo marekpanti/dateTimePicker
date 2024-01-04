@@ -12,21 +12,34 @@ import { ControlValueAccessor } from '@angular/forms';
 })
 export class DateInputComponent implements ControlValueAccessor {
   @Input() date: Date = new Date();
+  @Input() label: string
 
-  onChanged: Function = () => {};
-  onTouched: Function = () => {};
+  touched = false
+  disabled = false
 
-  registerOnChange(fn: Function) {
-    this.onChanged = fn;
+  /* eslint-disable */
+  onChanged = (date: Date) => {}
+  onTouched = () => {}
+
+  registerOnChange(fn: any) {
+    this.onChanged = fn
   }
-  registerOnTouched(fn: Function) {
-    this.onTouched = fn;
+  registerOnTouched(fn: any) {
+    this.onTouched = fn
   }
   writeValue(value: Date): void {
-    this.date = value;
+    this.date = new Date(value)
   }
 
-  setDateValue(date) {
-    this.date = date;
+  setDateValue(date: Date) {
+    this.writeValue(date)
+    this.onChanged(date)
+  }
+
+  markAsTouched() {
+    if (!this.touched) {
+      this.onTouched()
+      this.touched = true
+    }
   }
 }
