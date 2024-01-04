@@ -9,7 +9,7 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { months } from '../calendar.component';
+import { months } from '../angular-date-time-picker.component';
 
 export type ListData = string[] | TemplateRef<void>;
 export const LIST_DATA = new InjectionToken<ListData>('');

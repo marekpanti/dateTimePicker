@@ -12,7 +12,7 @@ import { ControlValueAccessor } from '@angular/forms';
 })
 export class DateInputComponent implements ControlValueAccessor {
   @Input() date: Date = new Date();
-  @Input() label: string
+  @Input() label: string = '';
 
   touched = false
   disabled = false

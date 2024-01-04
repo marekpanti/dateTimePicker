@@ -26,7 +26,7 @@ export class DateTimePickerDirective implements OnDestroy {
   @Output() selectDate = new EventEmitter<Date>();
 
   private overlayRef: OverlayRef | null = null;
-  private showPickerTimeout: ReturnType<typeof setTimeout>;
+  private showPickerTimeout: ReturnType<typeof setTimeout> = setTimeout(() => '');
   private subscriptions: Subscription[] = [];
 
   constructor(

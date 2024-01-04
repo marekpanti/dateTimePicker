@@ -5,30 +5,28 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Injector,
-  Input,
   OnDestroy,
   Output,
   ViewContainerRef,
 } from '@angular/core';
-import { Overlay, OverlayRef, PositionStrategy } from '@angular/cdk/overlay';
+import {
+  Overlay,
+  OverlayRef,
+  PositionStrategy,
+} from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ListOverlayComponent, LIST_DATA } from './list-overlay.component';
 import { Subscription } from 'rxjs';
+import { AngularDateTimePickerComponent } from './angular-date-time-picker.component';
 
 @Directive({
-  selector: '[appList]',
+  selector: '[dateTimePicker]',
   standalone: true,
 })
-export class ListOverlayDirective implements OnDestroy {
-  @Input() listData: string[] | number[] = [];
-  @Input() selected: number = 0;
-
-  @Output() selectMonth = new EventEmitter<number>();
-  @Output() selectYear = new EventEmitter<number>();
+export class AngularDateTimePickerDirective implements OnDestroy {
+  @Output() selectDate = new EventEmitter<Date>();
 
   private overlayRef: OverlayRef | null = null;
-  private showListTimeout: ReturnType<typeof setTimeout> = setTimeout(() => '');
+  private showPickerTimeout: ReturnType<typeof setTimeout> = setTimeout(() => '');
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -40,71 +38,46 @@ export class ListOverlayDirective implements OnDestroy {
 
   // We can add logic to some timeout on touch if needed
   @HostListener('click')
-  @HostListener('focus')
   show(): void {
     if (this.overlayRef?.hasAttached() === true) {
       return;
     }
 
-    this.showListTimeout = setTimeout(() => {
-      this.attachList();
-    }, 100);
-  }
-
-  @HostListener('blur')
-  hide(): void {
-    clearTimeout(this.showListTimeout);
-    if (this.overlayRef?.hasAttached() === true) {
-      this.overlayRef?.detach();
-    }
+    this.showPickerTimeout = setTimeout(() => {
+      this.attachPicker();
+    }, 500);
   }
 
   ngOnDestroy(): void {
-    clearTimeout(this.showListTimeout);
+    clearTimeout(this.showPickerTimeout);
     this.overlayRef?.dispose();
   }
 
-  private attachList(): void {
-    if (this.overlayRef === null) {
+  private attachPicker(): void {
+    if (!this.overlayRef) {
       const positionStrategy = this.getPositionStrategy();
-      this.overlayRef = this.overlay.create({ positionStrategy });
+      this.overlayRef = this.overlay.create({positionStrategy});
     }
 
-    const injector = Injector.create({
-      providers: [
-        {
-          provide: LIST_DATA,
-          useValue: {
-            list: this.listData,
-            selectedIndex: this.selected || 0,
-          },
-        },
-      ],
-    });
     const component = new ComponentPortal(
-      ListOverlayComponent,
+      AngularDateTimePickerComponent,
       this.viewContainer,
-      injector
+      // injector
     );
-    const componentRef: ComponentRef<ListOverlayComponent> =
-      this.overlayRef.attach(component);
+
+    const componentRef: ComponentRef<AngularDateTimePickerComponent> = this.overlayRef.attach(component);
     this.changeDetector.markForCheck();
 
     this.subscriptions.push(
       this.overlayRef.outsidePointerEvents().subscribe(() => {
-        this.detachAndUnsubscribe();
-      })
-    );
-    this.subscriptions.push(
-      componentRef.instance.selectMonth.subscribe((data) => {
-        if (typeof data.value === 'string') {
-          this.selectMonth.emit(data.index);
-        } else {
-          this.selectYear.emit(Number(data.value));
-        }
-        this.detachAndUnsubscribe();
-      })
-    );
+        this.detachAndUnsubscribe()
+      }),
+    )
+
+    this.subscriptions.push(componentRef.instance.selectDate.subscribe((data) => {
+      this.detachAndUnsubscribe();
+      this.selectDate.emit(data);
+    }));
   }
 
   private detachAndUnsubscribe(): void {

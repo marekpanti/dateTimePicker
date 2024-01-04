@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListOverlayDirective } from './list-overlay/list-overlay.directive';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ListOverlayDirective } from './list-overlay/list-overlay.directive';
 
 export const months = [
   'Január',
@@ -39,13 +39,13 @@ enum TimeEnum {
 }
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'lib-angular-date-time-picker',
   standalone: true,
   imports: [CommonModule, ListOverlayDirective, ReactiveFormsModule],
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+  templateUrl: './angular-date-time-picker.component.html',
+  styleUrls: ['./angular-date-time-picker.component.scss'],
 })
-export class DateTimePickerComponent {
+export class AngularDateTimePickerComponent {
   date = new Date(new Date().setDate(1));
   currentDay = new Date();
   currentYear = this.date.getFullYear();

@@ -50,9 +50,9 @@
             date.getMonth() === currentDay.getMonth() &&
             date.getFullYear() === currentDay.getFullYear(),
           selected:
-            clickedDate.getDate() === i + 1 &&
-            clickedDate.getMonth() === date.getMonth() &&
-            clickedDate.getFullYear() === date.getFullYear()
+            clickedDate?.getDate() === i + 1 &&
+            clickedDate?.getMonth() === date?.getMonth() &&
+            clickedDate?.getFullYear() === date?.getFullYear()
         }"
         [tabIndex]="1"
         (click)="setDate(i)"
