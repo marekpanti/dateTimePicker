@@ -1,5 +1,5 @@
 {
-  "name": "date-time-picker",
+  "name": "angular-date-time-picker",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
