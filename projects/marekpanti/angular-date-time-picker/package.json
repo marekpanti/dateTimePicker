@@ -1,6 +1,6 @@
 {
   "name": "@marekpanti/angular-date-time-picker",
-  "version": "0.0.0",
+  "version": "0.0.6",
   "peerDependencies": {
     "@angular/animations": "^17.0.8",
     "@angular/cdk": "^17.0.4",

@@ -16,6 +16,10 @@ Then import the calendar component if you need a static calendar picker, or you 
 
     import { AngularDateTimePickerComponent } from  '@marekpanti/angular-date-time-picker';
 
+Then in your html:
+    <lib-angular-date-time-picker></lib-angular-date-time-picker>;
+
+
 # Custom input with date-time-picker with in-built directive:
 
     import { Component, Input } from  '@angular/core';
