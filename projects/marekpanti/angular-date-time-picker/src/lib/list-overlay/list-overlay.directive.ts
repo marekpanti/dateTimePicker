@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
 export class ListOverlayDirective implements OnDestroy {
   @Input() listData: string[] | number[] = [];
   @Input() selected: number = 0;
+  @Input() elementt: any;
 
   @Output() selectMonth = new EventEmitter<number>();
   @Output() selectYear = new EventEmitter<number>();
@@ -40,7 +41,6 @@ export class ListOverlayDirective implements OnDestroy {
 
   // We can add logic to some timeout on touch if needed
   @HostListener('click')
-  @HostListener('focus')
   show(): void {
     if (this.overlayRef?.hasAttached() === true) {
       return;
@@ -122,7 +122,7 @@ export class ListOverlayDirective implements OnDestroy {
   private getPositionStrategy(): PositionStrategy {
     return this.overlay
       .position()
-      .flexibleConnectedTo(this.element)
+      .flexibleConnectedTo(this.elementt)
       .withPositions([
         {
           originX: 'center',

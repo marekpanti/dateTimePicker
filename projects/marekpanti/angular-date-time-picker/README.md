@@ -1,6 +1,8 @@
 # Date Time Picker
 
-I wrote this date-time-picker for my personal needs as I haven't seen a component that is simple and respects simplicity. Therefore I've created a component that is easy to use, easy to update design and most importantly a component that returns a simple date object that you can customize to your needs.
+I wrote this date-time-picker for my personal needs as I haven't seen a component that is simple and respects general usage. Therefore I've created a component that is easy to use, easy to update design and most importantly a component that returns a simple date object that you can customize to your needs - it is using css variables for the styling (most of the styling and it will be improved with the time)
+
+https://github.com/marekpanti/dateTimePicker
 
 
 # Getting started
@@ -65,5 +67,7 @@ Then import the calendar component if you need a static calendar picker, or you 
 
 ## Options
 
-|months|You can pass input of the name of the months, so array of 12 strings|
-|days| You can pass array of days in a week in the date picker|
+
+|months| days |
+|--|--|
+| You can pass input of the name of the months, so array of 12 strings |  You can pass array of days in a week in the date picker|

@@ -21,6 +21,7 @@ export const LIST_DATA = new InjectionToken<ListData>('');
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [CommonModule, NgFor],
+  host: {'id': new Date().toISOString()},
 })
 export class ListOverlayComponent implements AfterViewInit {
   months = months;

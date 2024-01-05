@@ -1,32 +1,145 @@
-<div class="container">
   <div class="calendar">
     <div class="month">
       <span class="cal-icon" (click)="prev()"
-        ><img class="arrow-left" src="./assets/arrow-down.svg"
-      /></span>
+        ><div class="arrow-left">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 7 5"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xml:space="preserve"
+            xmlns:serif="http://www.serif.com/"
+            style="
+              fill-rule: evenodd;
+              clip-rule: evenodd;
+              stroke-linejoin: round;
+              stroke-miterlimit: 2;
+            "
+          >
+            <g transform="matrix(1,0,0,1,-706,-357)">
+              <g
+                transform="matrix(-3.16031e-17,-0.172039,0.172039,-3.16031e-17,705.312,363.905)"
+              >
+                <path
+                  d="M32.75,44L12.75,24L32.75,4L35.55,6.85L18.4,24L35.55,41.15L32.75,44Z"
+                  style="fill-rule: nonzero"
+                />
+              </g>
+            </g>
+          </svg></div
+      ></span>
       <div class="date">
         <span class="calendar-title"
           ><span
+            #first
             appList
+            [elementt]="first"
             [listData]="months"
             [selected]="date.getMonth()"
             (selectMonth)="setMonth($event)"
             >{{ months[date.getMonth()] }}
-            <img class="arrow-down" src="./assets/arrow-down.svg" />
+            <div class="arrow-down">
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 7 5"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xml:space="preserve"
+                xmlns:serif="http://www.serif.com/"
+                style="
+                  fill-rule: evenodd;
+                  clip-rule: evenodd;
+                  stroke-linejoin: round;
+                  stroke-miterlimit: 2;
+                "
+              >
+                <g transform="matrix(1,0,0,1,-706,-357)">
+                  <g
+                    transform="matrix(-3.16031e-17,-0.172039,0.172039,-3.16031e-17,705.312,363.905)"
+                  >
+                    <path
+                      d="M32.75,44L12.75,24L32.75,4L35.55,6.85L18.4,24L35.55,41.15L32.75,44Z"
+                      style="fill-rule: nonzero"
+                    />
+                  </g>
+                </g>
+              </svg>
+            </div>
           </span>
           <span
+            #second
             appList
+            [elementt]="second"
             [listData]="getYearRange()"
             [selected]="15"
             (selectYear)="setYear($event)"
             >{{ date.getFullYear() }}
-            <img class="arrow-down" src="./assets/arrow-down.svg" />
+            <div class="arrow-down">
+              <svg
+                width="100%"
+                height="100%"
+                viewBox="0 0 7 5"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xml:space="preserve"
+                xmlns:serif="http://www.serif.com/"
+                style="
+                  fill-rule: evenodd;
+                  clip-rule: evenodd;
+                  stroke-linejoin: round;
+                  stroke-miterlimit: 2;
+                "
+              >
+                <g transform="matrix(1,0,0,1,-706,-357)">
+                  <g
+                    transform="matrix(-3.16031e-17,-0.172039,0.172039,-3.16031e-17,705.312,363.905)"
+                  >
+                    <path
+                      d="M32.75,44L12.75,24L32.75,4L35.55,6.85L18.4,24L35.55,41.15L32.75,44Z"
+                      style="fill-rule: nonzero"
+                    />
+                  </g>
+                </g>
+              </svg>
+            </div>
           </span>
         </span>
       </div>
       <span class="cal-icon" (click)="next()"
-        ><img class="arrow-right" src="./assets/arrow-down.svg"
-      /></span>
+        ><div class="arrow-right">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 7 5"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            xml:space="preserve"
+            xmlns:serif="http://www.serif.com/"
+            style="
+              fill-rule: evenodd;
+              clip-rule: evenodd;
+              stroke-linejoin: round;
+              stroke-miterlimit: 2;
+            "
+          >
+            <g transform="matrix(1,0,0,1,-706,-357)">
+              <g
+                transform="matrix(-3.16031e-17,-0.172039,0.172039,-3.16031e-17,705.312,363.905)"
+              >
+                <path
+                  d="M32.75,44L12.75,24L32.75,4L35.55,6.85L18.4,24L35.55,41.15L32.75,44Z"
+                  style="fill-rule: nonzero"
+                />
+              </g>
+            </g>
+          </svg></div
+      ></span>
     </div>
     <div class="weekdays">
       <div>{{ days[0] }}</div>
@@ -122,4 +235,3 @@
       </button>
     </div>
   </div>
-</div>
