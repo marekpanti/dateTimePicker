@@ -1,7 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListOverlayDirective } from './list-overlay/list-overlay.directive';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 export const months = [
   'Január',
@@ -18,15 +23,7 @@ export const months = [
   'December',
 ];
 
-export const days = [
-  'Po',
-  'Ut',
-  'St',
-  'Št',
-  'Pia',
-  'So',
-  'Ne',
-];
+export const days = ['Po', 'Ut', 'St', 'Št', 'Pia', 'So', 'Ne'];
 
 interface TimeForm {
   hours: FormControl<number | null>;
@@ -35,7 +32,7 @@ interface TimeForm {
 
 enum TimeEnum {
   HOURS = 'hours',
-  MINUTES = 'minutes'
+  MINUTES = 'minutes',
 }
 
 @Component({
@@ -71,17 +68,27 @@ export class DateTimePickerComponent {
   currentDaysArray: any[] = [];
   lastDays: number[] = [];
   isSetHoursOpen = false;
-  clickedDate: Date = new Date();
+  clickedDate: Date | null = new Date();
+  clickedToDate: Date | null = new Date();
   currentClickedIndex: number = 0;
   timeTypes = TimeEnum;
   timeForm = new FormGroup<TimeForm>({
-    hours: new FormControl((new Date()).getHours(), [Validators.min(0), Validators.max(24)]),
-    minutes: new FormControl((new Date()).getMinutes(), [Validators.min(0), Validators.max(60)])
+    hours: new FormControl(new Date().getHours(), [
+      Validators.min(0),
+      Validators.max(24),
+    ]),
+    minutes: new FormControl(new Date().getMinutes(), [
+      Validators.min(0),
+      Validators.max(60),
+    ]),
   });
 
   @Input() months = months;
   @Input() days = days;
+  @Input() timePicker = false;
+  @Input() range = true;
   @Output() selectDate = new EventEmitter<Date>();
+  @Output() selectDateTo = new EventEmitter<Date>();
 
   ngOnInit() {
     this.calcDays();
@@ -143,8 +150,10 @@ export class DateTimePickerComponent {
 
   close() {
     // emit output of removing data
-    this.currentDaysArray[this.clickedDate.getDate() - 1].data = null;
-    this.isSetHoursOpen = false;
+    if (this.clickedDate) {
+      this.currentDaysArray[this.clickedDate.getDate() - 1].data = null;
+      this.isSetHoursOpen = false;
+    }
   }
 
   timeToDecimal(t: string) {
@@ -171,7 +180,64 @@ export class DateTimePickerComponent {
   }
 
   setDate(index: number) {
-    this.clickedDate = new Date(this.date.getFullYear(), this.date.getMonth(), index + 1);
+    console.log('v set date');
+    if (this.range) {
+      console.log('range true');
+      if (this.clickedDate && this.clickedToDate) {
+        console.log('vynulujeme')
+        this.clickedDate = null;
+        this.clickedToDate = null;
+      }
+      if (this.clickedDate && !this.clickedToDate) {
+        console.log(
+          'ak je clicked date a nieje clickedToDate, nastaviem clickedTo'
+        );
+        this.clickedToDate = this.clickedDate = new Date(
+          this.date.getFullYear(),
+          this.date.getMonth(),
+          index + 1
+        );
+      }
+      if (!this.clickedToDate) {
+        console.log('nastavi sa clicked date');
+        this.clickedDate = new Date(
+          this.date.getFullYear(),
+          this.date.getMonth(),
+          index + 1
+        );
+      }
+      if (
+        this.clickedDate &&
+        this.clickedToDate &&
+        this.clickedDate > this.clickedToDate
+      ) {
+        console.log('spravime reverse');
+        const clickedToDate = this.clickedDate;
+        const clickedDate = this.clickedToDate;
+        this.clickedDate = clickedDate;
+        this.clickedToDate = clickedToDate;
+      }
+    }
+    this.clickedDate = new Date(
+      this.date.getFullYear(),
+      this.date.getMonth(),
+      index + 1
+    );
+    console.log('first: ', this.clickedDate, 'second: ', this.clickedToDate);
+  }
+
+  inSelection(i: number) {
+    // console.log(i);
+    return (
+      this.clickedDate &&
+      this.clickedToDate &&
+      this.clickedDate?.getDate() >= i + 1
+      // this.clickedDate?.getMonth() >= this.date?.getMonth() &&
+      // this.clickedDate?.getFullYear() >= this.date?.getFullYear()
+      // this.clickedToDate?.getDate() <= i + 1 &&
+      // this.clickedToDate?.getMonth() <= this.date?.getMonth() &&
+      // this.clickedToDate?.getFullYear() <= this.date?.getFullYear()
+    );
   }
 
   getYearRange(): number[] {
@@ -187,17 +253,19 @@ export class DateTimePickerComponent {
 
   increase(type: TimeEnum) {
     const newValue = (this.timeForm.get(type)?.value || 0) + 1;
-    this.timeForm.get(type)?.setValue(newValue)
+    this.timeForm.get(type)?.setValue(newValue);
   }
 
   decrease(type: TimeEnum) {
     const newValue = (this.timeForm.get(type)?.value || 0) - 1;
-    this.timeForm.get(type)?.setValue(newValue)
+    this.timeForm.get(type)?.setValue(newValue);
   }
 
   confirm() {
-    this.clickedDate.setHours(this.timeForm.get('hours')?.value || 0);
-    this.clickedDate.setMinutes(this.timeForm.get('minutes')?.value || 0);
-    this.selectDate.emit(this.clickedDate);
+    if (this.clickedDate) {
+      this.clickedDate.setHours(this.timeForm.get('hours')?.value || 0);
+      this.clickedDate.setMinutes(this.timeForm.get('minutes')?.value || 0);
+      this.selectDate.emit(this.clickedDate);
+    }
   }
 }

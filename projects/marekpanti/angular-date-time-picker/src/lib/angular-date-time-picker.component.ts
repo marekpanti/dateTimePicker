@@ -1,32 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ListOverlayDirective } from './list-overlay/list-overlay.directive';
 
 export const months = [
-  'Január',
-  'Február',
-  'Marec',
-  'Apríl',
-  'Máj',
-  'Jún',
-  'Júl',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'Jun',
+  'July',
   'August',
   'September',
-  'Oktober',
+  'October',
   'November',
   'December',
 ];
 
-export const days = [
-  'Po',
-  'Ut',
-  'St',
-  'Št',
-  'Pia',
-  'So',
-  'Ne',
-];
+export const days = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
 interface TimeForm {
   hours: FormControl<number | null>;
@@ -35,7 +32,7 @@ interface TimeForm {
 
 enum TimeEnum {
   HOURS = 'hours',
-  MINUTES = 'minutes'
+  MINUTES = 'minutes',
 }
 
 @Component({
@@ -71,17 +68,27 @@ export class AngularDateTimePickerComponent {
   currentDaysArray: any[] = [];
   lastDays: number[] = [];
   isSetHoursOpen = false;
-  clickedDate: Date = new Date();
+  clickedDate: Date | null = null;
+  clickedToDate: Date | null = null;
   currentClickedIndex: number = 0;
   timeTypes = TimeEnum;
   timeForm = new FormGroup<TimeForm>({
-    hours: new FormControl((new Date()).getHours(), [Validators.min(0), Validators.max(24)]),
-    minutes: new FormControl((new Date()).getMinutes(), [Validators.min(0), Validators.max(60)])
+    hours: new FormControl(new Date().getHours(), [
+      Validators.min(0),
+      Validators.max(24),
+    ]),
+    minutes: new FormControl(new Date().getMinutes(), [
+      Validators.min(0),
+      Validators.max(60),
+    ]),
   });
 
   @Input() months = months;
   @Input() days = days;
+  @Input() timePicker = false;
+  @Input() range = false;
   @Output() selectDate = new EventEmitter<Date>();
+  @Output() selectRange = new EventEmitter<Date[]>();
 
   ngOnInit() {
     this.calcDays();
@@ -143,8 +150,10 @@ export class AngularDateTimePickerComponent {
 
   close() {
     // emit output of removing data
-    this.currentDaysArray[this.clickedDate.getDate() - 1].data = null;
-    this.isSetHoursOpen = false;
+    if (this.clickedDate) {
+      this.currentDaysArray[this.clickedDate.getDate() - 1].data = null;
+      this.isSetHoursOpen = false;
+    }
   }
 
   timeToDecimal(t: string) {
@@ -171,7 +180,72 @@ export class AngularDateTimePickerComponent {
   }
 
   setDate(index: number) {
-    this.clickedDate = new Date(this.date.getFullYear(), this.date.getMonth(), index + 1);
+    // If the range selection is asked
+    if (this.range) {
+      // The order is very important -> Here if there already is existing range
+      // and the user clicks on a new selection, we are starting from scratch
+      if (this.clickedDate && this.clickedToDate) {
+        this.clickedDate = null;
+        this.clickedToDate = null;
+      }
+
+      // If there is already first selection, then we are assigning the value to clickedToDate
+      if (this.clickedDate && !this.clickedToDate) {
+        this.clickedToDate = new Date(
+          this.date.getFullYear(),
+          this.date.getMonth(),
+          index
+        );
+      }
+
+      // Only here we can set the first and most important starting point
+      if (!this.clickedToDate && !this.clickedDate) {
+        this.clickedDate = new Date(
+          this.date.getFullYear(),
+          this.date.getMonth(),
+          index
+        );
+      }
+
+      // In case the clickedToDate is lower, then we are reversing them
+      if (
+        this.clickedDate &&
+        this.clickedToDate &&
+        this.clickedDate > this.clickedToDate
+      ) {
+        const clickedToDate = this.clickedDate;
+        const clickedDate = this.clickedToDate;
+        this.clickedDate = clickedDate;
+        this.clickedToDate = clickedToDate;
+      }
+      // In normal mode
+    } else {
+      this.clickedDate = new Date(
+        this.date.getFullYear(),
+        this.date.getMonth(),
+        index
+      );
+    }
+  }
+
+  inRangeSelection(i: number) {
+    const currentDay = new Date(
+      this.date.getFullYear(),
+      this.date.getMonth(),
+      i
+    );
+
+    return (
+      this.range &&
+      this.clickedDate &&
+      this.clickedToDate &&
+      this.clickedDate.getDate() < currentDay.getDate() &&
+      this.clickedToDate.getDate() > currentDay.getDate() &&
+      this.clickedDate.getFullYear() >= currentDay.getFullYear() &&
+      this.clickedToDate.getFullYear() >= currentDay.getFullYear() &&
+      this.clickedDate.getMonth() >= currentDay.getMonth() &&
+      this.clickedToDate.getMonth() >= currentDay.getMonth()
+    );
   }
 
   getYearRange(): number[] {
@@ -187,17 +261,33 @@ export class AngularDateTimePickerComponent {
 
   increase(type: TimeEnum) {
     const newValue = (this.timeForm.get(type)?.value || 0) + 1;
-    this.timeForm.get(type)?.setValue(newValue)
+    this.timeForm.get(type)?.setValue(newValue);
   }
 
   decrease(type: TimeEnum) {
     const newValue = (this.timeForm.get(type)?.value || 0) - 1;
-    this.timeForm.get(type)?.setValue(newValue)
+    this.timeForm.get(type)?.setValue(newValue);
+  }
+
+  disableConfirmButton() {
+    if (this.range) {
+      return !this.clickedDate || !this.clickedToDate
+    } else {
+      return !this.clickedDate || !this.timeForm.valid
+    }
   }
 
   confirm() {
-    this.clickedDate.setHours(this.timeForm.get('hours')?.value || 0);
-    this.clickedDate.setMinutes(this.timeForm.get('minutes')?.value || 0);
-    this.selectDate.emit(this.clickedDate);
+    if (this.range) {
+      if (this.clickedDate && this.clickedToDate) {
+        this.selectRange.emit([this.clickedDate, this.clickedToDate]);
+      }
+    } else {
+      if (this.clickedDate) {
+        this.clickedDate.setHours(this.timeForm.get('hours')?.value || 0);
+        this.clickedDate.setMinutes(this.timeForm.get('minutes')?.value || 0);
+        this.selectDate.emit(this.clickedDate);
+      }
+    }
   }
 }

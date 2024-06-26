@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DateTimePickerDirective } from '../calendar/calendar-overlay.directive';
+// import { DateTimePickerDirective } from '../calendar/calendar-overlay.directive';
 import { ControlValueAccessor } from '@angular/forms';
+import { AngularDateTimePickerDirective } from '../../../../projects/marekpanti/angular-date-time-picker/src/public-api';
 
 @Component({
   selector: 'app-date-input',
   standalone: true,
-  imports: [CommonModule, DateTimePickerDirective],
+  imports: [CommonModule, AngularDateTimePickerDirective],
   templateUrl: './date-input.component.html',
   styleUrls: ['./date-input.component.scss']
 })

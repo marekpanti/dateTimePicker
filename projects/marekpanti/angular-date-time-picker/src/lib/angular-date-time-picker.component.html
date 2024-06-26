@@ -1,4 +1,5 @@
-  <div class="calendar">
+<div class="calendar">
+  <div *ngIf="!timePicker" class="day-picker">
     <div class="month">
       <span class="cal-icon" (click)="prev()"
         ><div class="arrow-left">
@@ -163,12 +164,18 @@
             date.getMonth() === currentDay.getMonth() &&
             date.getFullYear() === currentDay.getFullYear(),
           selected:
-            clickedDate?.getDate() === i + 1 &&
-            clickedDate?.getMonth() === date?.getMonth() &&
-            clickedDate?.getFullYear() === date?.getFullYear()
+            (clickedDate &&
+              clickedDate.getDate() === i + 1 &&
+              clickedDate.getMonth() === date.getMonth() &&
+              clickedDate.getFullYear() === date.getFullYear()) ||
+            (clickedToDate &&
+              clickedToDate.getDate() === i + 1 &&
+              clickedToDate.getMonth() === date.getMonth() &&
+              clickedToDate.getFullYear() === date.getFullYear()),
+          inSelection: inRangeSelection(day.day)
         }"
         [tabIndex]="1"
-        (click)="setDate(i)"
+        (click)="setDate(day.day)"
       >
         {{ day.day }}
         <span
@@ -182,56 +189,57 @@
         {{ day }}
       </div>
     </div>
-    <div class="time">
-      <form [formGroup]="timeForm">
-        <div class="number">
-          <input
-            [value]="timeForm.get('hours')?.value | number : '2.0'"
-            type="number"
-            [class.error]="!timeForm.get('hours')?.valid"
-            formControlName="hours"
-          />
-          <div class="number__actions">
-            <span
-              class="number__actions__item"
-              (click)="increase(timeTypes.HOURS)"
-              >+</span
-            >
-            <span
-              class="number__actions__item"
-              (click)="decrease(timeTypes.HOURS)"
-              >-</span
-            >
-          </div>
-        </div>
-        <span class="time-span">:</span>
-        <div class="number">
-          <input
-            [value]="timeForm.get('minutes')?.value | number : '2.0'"
-            [class.error]="!timeForm.get('minutes')?.valid"
-            type="number"
-            formControlName="minutes"
-          />
-          <div class="number__actions">
-            <span
-              class="number__actions__item"
-              (click)="increase(timeTypes.MINUTES)"
-              >+</span
-            >
-            <span
-              class="number__actions__item"
-              (click)="decrease(timeTypes.MINUTES)"
-              >-</span
-            >
-          </div>
-        </div>
-      </form>
-      <button
-        class="confirm"
-        [disabled]="!clickedDate || !timeForm.valid"
-        (click)="confirm()"
-      >
-        OK
-      </button>
-    </div>
   </div>
+  <div class="time">
+    <form *ngIf="!range" [formGroup]="timeForm">
+      <div class="number">
+        <input
+          [value]="timeForm.get('hours')?.value | number : '2.0'"
+          type="number"
+          [class.error]="!timeForm.get('hours')?.valid"
+          formControlName="hours"
+        />
+        <div class="number__actions">
+          <span
+            class="number__actions__item"
+            (click)="increase(timeTypes.HOURS)"
+            >+</span
+          >
+          <span
+            class="number__actions__item"
+            (click)="decrease(timeTypes.HOURS)"
+            >-</span
+          >
+        </div>
+      </div>
+      <span class="time-span">:</span>
+      <div class="number">
+        <input
+          [value]="timeForm.get('minutes')?.value | number : '2.0'"
+          [class.error]="!timeForm.get('minutes')?.valid"
+          type="number"
+          formControlName="minutes"
+        />
+        <div class="number__actions">
+          <span
+            class="number__actions__item"
+            (click)="increase(timeTypes.MINUTES)"
+            >+</span
+          >
+          <span
+            class="number__actions__item"
+            (click)="decrease(timeTypes.MINUTES)"
+            >-</span
+          >
+        </div>
+      </div>
+    </form>
+    <button
+      class="confirm"
+      [disabled]="disableConfirmButton()"
+      (click)="confirm()"
+    >
+      OK
+    </button>
+  </div>
+</div>

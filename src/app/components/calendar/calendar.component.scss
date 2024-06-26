@@ -1,3 +1,5 @@
+@import '~@angular/cdk/overlay-prebuilt.css';
+
 .calendar {
   --picker-font-family: Poppins;
   --picker-text-color: #2a2a2a;
@@ -9,7 +11,6 @@
   --hover-background: #dcdde1;
   color: var(--picker-text-color);
   .set-hours {
-
     .row {
       display: flex;
       margin: 2rem 0;
@@ -168,6 +169,12 @@
   background-color: #b7b7b7;
 }
 
+.inSelection {
+  // font-weight: bold;
+  border: 3px;
+  background-color: #dfdfdf;
+}
+
 .nonActive {
   color: #d1d1d1;
 }
@@ -227,19 +234,18 @@
     height: 28px;
     font-size: 16px;
     width: 20px;
+    padding: 1px 0.5rem;
 
     &:focus {
       outline: 3px solid var(--outline-color);
     }
   }
-  /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
 
-  /* Firefox */
   input[type="number"] {
     -moz-appearance: textfield;
   }
@@ -273,6 +279,7 @@
   transition: all 0.3s;
   cursor: pointer;
   margin-top: 0.5rem;
+  width: 100%;
 
   &:hover {
     background: var(--border-color);
