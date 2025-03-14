@@ -268,4 +268,9 @@ export class DateTimePickerComponent {
       this.selectDate.emit(this.clickedDate);
     }
   }
+
+  protected checkRange(date: Date): boolean {
+    // check the current date vs. the validators min, max to forbit the selection
+    return true
+  }
 }

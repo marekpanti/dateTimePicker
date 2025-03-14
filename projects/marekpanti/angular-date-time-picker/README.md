@@ -1,3 +1,4 @@
+
 # Date Time Picker
 
 I wrote this date-time-picker for my personal needs as I haven't seen a component that is simple and respects general usage. Therefore I've created a component that is easy to use, easy to update design and most importantly a component that returns a simple date object that you can customize to your needs - it is using css variables for the styling (most of the styling and it will be improved with the time)
@@ -16,8 +17,13 @@ Then import the calendar component if you need a static calendar picker, or you 
 
     import { AngularDateTimePickerComponent } from  '@marekpanti/angular-date-time-picker';
 
-Then in your html:
-    <lib-angular-date-time-picker></lib-angular-date-time-picker>;
+**Then in your html:**
+
+<lib-angular-date-time-picker (selectDate)="$event">
+
+**For date range picker:**
+
+<lib-angular-date-time-picke [range]="true" (selectRange)="$event">
 
 
 # Custom input with date-time-picker with in-built directive:

@@ -87,6 +87,8 @@ export class AngularDateTimePickerComponent {
   @Input() days = days;
   @Input() timePicker = false;
   @Input() range = false;
+  @Input() min: Date;
+  @Input() max: Date;
   @Output() selectDate = new EventEmitter<Date>();
   @Output() selectRange = new EventEmitter<Date[]>();
 

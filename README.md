@@ -1,27 +1,84 @@
-# DateTimePicker
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.4.
+# Date Time Picker
 
-## Development server
+I wrote this date-time-picker for my personal needs as I haven't seen a component that is simple and respects general usage. Therefore I've created a component that is easy to use, easy to update design and most importantly a component that returns a simple date object that you can customize to your needs - it is using css variables for the styling (most of the styling and it will be improved with the time)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+code : https://github.com/marekpanti/dateTimePicker
+live: -- to be filled --
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Getting started
 
-## Build
+Manual Setup
+First install through npm:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+    npm install @marekpanti/angular-date-time-picker
 
-## Running unit tests
+Then import the calendar component if you need a static calendar picker, or you can add the directive as well:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    import { AngularDateTimePickerComponent } from  '@marekpanti/angular-date-time-picker';
 
-## Running end-to-end tests
+**Then in your html:**
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+<lib-angular-date-time-picker (selectDate)="$event">
 
-## Further help
+**For date range picker:**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<lib-angular-date-time-picke [range]="true" (selectRange)="$event">
+
+
+# Custom input with date-time-picker with in-built directive:
+
+    import { Component, Input } from  '@angular/core';
+    import { CommonModule } from  '@angular/common';
+    import { DateTimePickerDirective } from  '../calendar/calendar-overlay.directive';
+    import { ControlValueAccessor } from  '@angular/forms';
+    
+    @Component({
+    selector: 'app-date-input',
+    standalone: true,
+    imports: [CommonModule, DateTimePickerDirective],
+    templateUrl: './date-input.component.html',
+    styleUrls: ['./date-input.component.scss']
+    })
+    export  class  DateInputComponent  implements  ControlValueAccessor {
+    @Input() date:  Date  =  new  Date();
+    @Input() label:  string  =  '';
+    
+    touched  =  false
+    disabled  =  false
+    
+    onChanged  = (date:  Date) => {}
+    onTouched  = () => {}
+    
+    registerOnChange(fn:  any) {
+    this.onChanged  =  fn
+	    }
+    
+    registerOnTouched(fn:  any) {
+    this.onTouched  =  fn
+	    }
+    
+    writeValue(value:  Date):  void {
+    this.date  =  new  Date(value)
+	    }
+    
+    setDateValue(date:  Date) {
+    this.writeValue(date)
+    this.onChanged(date)
+	    }
+    
+    markAsTouched() {
+    if (!this.touched) {
+    this.onTouched()
+    this.touched  =  true
+	    }
+     }
+    }
+
+## Options
+
+
+|months| days |min|max|range|timePicker|
+|--|--|--|--|--|--|
+| You can pass input of the name of the months, so array of 12 strings |  You can pass array of days in a week in the date picker|min validator|max validation| range picker - 2 dates selected as output | only time picker
