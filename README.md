@@ -4,7 +4,8 @@
 I wrote this date-time-picker for my personal needs as I haven't seen a component that is simple and respects general usage. Therefore I've created a component that is easy to use, easy to update design and most importantly a component that returns a simple date object that you can customize to your needs - it is using css variables for the styling (most of the styling and it will be improved with the time)
 
 code : https://github.com/marekpanti/dateTimePicker
-live: -- to be filled --
+author linkedin : https://www.linkedin.com/in/marekpanti/
+Special service by author - creation of custom component based on your needs : https://www.angularcalendar.com
 
 
 # Getting started

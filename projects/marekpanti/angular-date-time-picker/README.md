@@ -3,7 +3,9 @@
 
 I wrote this date-time-picker for my personal needs as I haven't seen a component that is simple and respects general usage. Therefore I've created a component that is easy to use, easy to update design and most importantly a component that returns a simple date object that you can customize to your needs - it is using css variables for the styling (most of the styling and it will be improved with the time)
 
-https://github.com/marekpanti/dateTimePicker
+code : https://github.com/marekpanti/dateTimePicker
+author linkedin : https://www.linkedin.com/in/marekpanti/
+Special service by author - creation of custom component based on your needs : https://www.angularcalendar.com
 
 
 # Getting started
@@ -78,6 +80,6 @@ Then import the calendar component if you need a static calendar picker, or you 
 ## Options
 
 
-|months| days |
-|--|--|
-| You can pass input of the name of the months, so array of 12 strings |  You can pass array of days in a week in the date picker|
+|months| days |min|max|range|timePicker|
+|--|--|--|--|--|--|
+| You can pass input of the name of the months, so array of 12 strings |  You can pass array of days in a week in the date picker|min validator|max validation| range picker - 2 dates selected as output | only time picker
