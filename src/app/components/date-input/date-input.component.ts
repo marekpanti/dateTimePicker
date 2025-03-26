@@ -5,11 +5,10 @@ import { ControlValueAccessor } from '@angular/forms';
 import { AngularDateTimePickerDirective } from '../../../../projects/marekpanti/angular-date-time-picker/src/public-api';
 
 @Component({
-  selector: 'app-date-input',
-  standalone: true,
-  imports: [CommonModule, AngularDateTimePickerDirective],
-  templateUrl: './date-input.component.html',
-  styleUrls: ['./date-input.component.scss']
+    selector: 'app-date-input',
+    imports: [CommonModule, AngularDateTimePickerDirective],
+    templateUrl: './date-input.component.html',
+    styleUrls: ['./date-input.component.scss']
 })
 export class DateInputComponent implements ControlValueAccessor {
   @Input() date: Date = new Date();

@@ -7,13 +7,13 @@ import { AngularDateTimePickerComponent, AngularDateTimePickerDirective } from '
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, AngularDateTimePickerComponent, AngularDateTimePickerDirective, DateInputComponent],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    imports: [CommonModule, AngularDateTimePickerComponent, AngularDateTimePickerDirective, DateInputComponent],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'date-time-picker';
   date = new Date();
+  min = new Date();
 }

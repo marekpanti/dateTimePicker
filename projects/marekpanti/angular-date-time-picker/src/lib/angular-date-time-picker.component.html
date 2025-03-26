@@ -172,7 +172,8 @@
               clickedToDate.getDate() === i + 1 &&
               clickedToDate.getMonth() === date.getMonth() &&
               clickedToDate.getFullYear() === date.getFullYear()),
-          inSelection: inRangeSelection(day.day)
+          inSelection: inRangeSelection(day.day),
+          forbidden: !isDateValid(day.day)
         }"
         [tabIndex]="1"
         (click)="setDate(day.day)"

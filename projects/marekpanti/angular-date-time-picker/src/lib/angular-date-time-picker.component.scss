@@ -256,6 +256,18 @@
   background-color: #b7b7b7;
 }
 
+.forbidden {
+  color: #d1d1d1;
+
+  &:focus {
+    outline: none !important;
+    border: none;
+  }
+  &:hover{
+    background: none !important;
+  }
+}
+
 .inSelection {
   border-radius: 3px;
   background-color: #ececec;

@@ -15,13 +15,12 @@ export type ListData = string[] | TemplateRef<void>;
 export const LIST_DATA = new InjectionToken<ListData>('');
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list-overlay.component.html',
-  styleUrls: ['./list-overlay.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, NgFor],
-  host: {'id': new Date().toISOString()},
+    selector: 'app-list',
+    templateUrl: './list-overlay.component.html',
+    styleUrls: ['./list-overlay.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [CommonModule, NgFor],
+    host: { 'id': new Date().toISOString() }
 })
 export class ListOverlayComponent implements AfterViewInit {
   months = months;

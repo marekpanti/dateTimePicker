@@ -36,11 +36,10 @@ enum TimeEnum {
 }
 
 @Component({
-  selector: 'app-calendar',
-  standalone: true,
-  imports: [CommonModule, ListOverlayDirective, ReactiveFormsModule],
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss'],
+    selector: 'app-calendar',
+    imports: [CommonModule, ListOverlayDirective, ReactiveFormsModule],
+    templateUrl: './calendar.component.html',
+    styleUrls: ['./calendar.component.scss']
 })
 export class DateTimePickerComponent {
   date = new Date(new Date().setDate(1));

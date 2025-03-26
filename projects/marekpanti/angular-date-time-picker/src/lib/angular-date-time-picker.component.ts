@@ -36,11 +36,10 @@ enum TimeEnum {
 }
 
 @Component({
-  selector: 'lib-angular-date-time-picker',
-  standalone: true,
-  imports: [CommonModule, ListOverlayDirective, ReactiveFormsModule],
-  templateUrl: './angular-date-time-picker.component.html',
-  styleUrls: ['./angular-date-time-picker.component.scss'],
+    selector: 'lib-angular-date-time-picker',
+    imports: [CommonModule, ListOverlayDirective, ReactiveFormsModule],
+    templateUrl: './angular-date-time-picker.component.html',
+    styleUrls: ['./angular-date-time-picker.component.scss']
 })
 export class AngularDateTimePickerComponent {
   date = new Date(new Date().setDate(1));
@@ -182,6 +181,9 @@ export class AngularDateTimePickerComponent {
   }
 
   setDate(index: number) {
+    if (!this.isDateValid(index)) {
+      return;
+    }
     // If the range selection is asked
     if (this.range) {
       // The order is very important -> Here if there already is existing range
@@ -228,6 +230,28 @@ export class AngularDateTimePickerComponent {
         index
       );
     }
+  }
+
+  isDateValid(dayInAMonth: number): boolean {
+    const currentDate = this.stripTime(new Date(this.date.getFullYear(), this.date.getMonth(), dayInAMonth));
+    const min = this.min ? this.stripTime(this.min) : null;
+    const max = this.max ? this.stripTime(this.max) : null;
+
+    if (!min && !max) {
+      return true;
+    }
+    if (!min) {
+      return currentDate <= max!;
+    }
+    if (!max) {
+      return currentDate >= min;
+    }
+
+    return currentDate >= min && currentDate <= max;
+  }
+
+  private stripTime(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 
   inRangeSelection(i: number) {
