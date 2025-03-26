@@ -179,18 +179,12 @@ export class DateTimePickerComponent {
   }
 
   setDate(index: number) {
-    console.log('v set date');
     if (this.range) {
-      console.log('range true');
       if (this.clickedDate && this.clickedToDate) {
-        console.log('vynulujeme')
         this.clickedDate = null;
         this.clickedToDate = null;
       }
       if (this.clickedDate && !this.clickedToDate) {
-        console.log(
-          'ak je clicked date a nieje clickedToDate, nastaviem clickedTo'
-        );
         this.clickedToDate = this.clickedDate = new Date(
           this.date.getFullYear(),
           this.date.getMonth(),
@@ -198,7 +192,6 @@ export class DateTimePickerComponent {
         );
       }
       if (!this.clickedToDate) {
-        console.log('nastavi sa clicked date');
         this.clickedDate = new Date(
           this.date.getFullYear(),
           this.date.getMonth(),
@@ -210,7 +203,6 @@ export class DateTimePickerComponent {
         this.clickedToDate &&
         this.clickedDate > this.clickedToDate
       ) {
-        console.log('spravime reverse');
         const clickedToDate = this.clickedDate;
         const clickedDate = this.clickedToDate;
         this.clickedDate = clickedDate;
@@ -222,7 +214,6 @@ export class DateTimePickerComponent {
       this.date.getMonth(),
       index + 1
     );
-    console.log('first: ', this.clickedDate, 'second: ', this.clickedToDate);
   }
 
   inSelection(i: number) {
